@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="82542dc4c25d494c8bdfe4c5f291804e" Name="Diagram1">
+        <EntityTypeShape EntityType="uniDegerlendirmeModel.hakkimizda" Width="1.5" PointX="1.125" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="uniDegerlendirmeModel.iletisim" Width="1.5" PointX="4.125" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="uniDegerlendirmeModel.kategori" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="uniDegerlendirmeModel.sysdiagrams" Width="1.5" PointX="7.875" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="uniDegerlendirmeModel.tur" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="uniDegerlendirmeModel.uni" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="uniDegerlendirmeModel.yorumIicerik" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <AssociationConnector Association="uniDegerlendirmeModel.FK_uni_kategori" ManuallyRouted="false" />
+        <AssociationConnector Association="uniDegerlendirmeModel.FK_uni_tur" ManuallyRouted="false" />
+        <AssociationConnector Association="uniDegerlendirmeModel.FK_yorum_uni" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="uniDegerlendirmeModel.kullanici" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="uniDegerlendirmeModel.bolum" Width="1.5" PointX="3.375" PointY="7.875" />
+        <AssociationConnector Association="uniDegerlendirmeModel.FK_uni_bolum" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

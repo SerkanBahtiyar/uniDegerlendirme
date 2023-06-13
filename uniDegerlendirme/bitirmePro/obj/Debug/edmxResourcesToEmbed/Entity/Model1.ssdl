@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="uniDegerlendirmeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="bolum">
+    <Key>
+      <PropertyRef Name="bolumid" />
+    </Key>
+    <Property Name="bolumid" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="bolumAd" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="hakkimizda">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="aciklama" Type="varchar" MaxLength="4000" />
+  </EntityType>
+  <EntityType Name="iletisim">
+    <Key>
+      <PropertyRef Name="mesajid" />
+    </Key>
+    <Property Name="mesajid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="adSoyad" Type="varchar" MaxLength="50" />
+    <Property Name="mail" Type="varchar" MaxLength="50" />
+    <Property Name="telefon" Type="varchar" MaxLength="50" />
+    <Property Name="konu" Type="varchar" MaxLength="50" />
+    <Property Name="mesaj" Type="varchar" MaxLength="1000" />
+  </EntityType>
+  <EntityType Name="kategori">
+    <Key>
+      <PropertyRef Name="kategoriid" />
+    </Key>
+    <Property Name="kategoriid" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kategoriAd" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="kullanici">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kullanıci" Type="varchar" MaxLength="50" />
+    <Property Name="sifre" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tur">
+    <Key>
+      <PropertyRef Name="turid" />
+    </Key>
+    <Property Name="turid" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="turAd" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="uni">
+    <Key>
+      <PropertyRef Name="uniID" />
+    </Key>
+    <Property Name="uniID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="uniGBASLIK" Type="nvarchar" MaxLength="100" />
+    <Property Name="uniICERIK" Type="nvarchar" MaxLength="4000" />
+    <Property Name="uniTARIH" Type="smalldatetime" />
+    <Property Name="uniGORSEL" Type="varchar" MaxLength="100" />
+    <Property Name="uniTUR" Type="tinyint" />
+    <Property Name="uniKATEGORI" Type="tinyint" />
+    <Property Name="uniBolum" Type="tinyint" />
+  </EntityType>
+  <EntityType Name="yorumIicerik">
+    <Key>
+      <PropertyRef Name="yorumid" />
+    </Key>
+    <Property Name="yorumid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="kisiAd" Type="varchar" MaxLength="20" />
+    <Property Name="kisiMail" Type="varchar" MaxLength="50" />
+    <Property Name="yorum" Type="varchar" MaxLength="400" />
+    <Property Name="yorumUni" Type="int" />
+  </EntityType>
+  <Association Name="FK_uni_bolum">
+    <End Role="bolum" Type="Self.bolum" Multiplicity="0..1" />
+    <End Role="uni" Type="Self.uni" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="bolum">
+        <PropertyRef Name="bolumid" />
+      </Principal>
+      <Dependent Role="uni">
+        <PropertyRef Name="uniBolum" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_uni_kategori">
+    <End Role="kategori" Type="Self.kategori" Multiplicity="0..1" />
+    <End Role="uni" Type="Self.uni" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="kategori">
+        <PropertyRef Name="kategoriid" />
+      </Principal>
+      <Dependent Role="uni">
+        <PropertyRef Name="uniKATEGORI" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_uni_tur">
+    <End Role="tur" Type="Self.tur" Multiplicity="0..1" />
+    <End Role="uni" Type="Self.uni" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tur">
+        <PropertyRef Name="turid" />
+      </Principal>
+      <Dependent Role="uni">
+        <PropertyRef Name="uniTUR" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_yorum_uni">
+    <End Role="uni" Type="Self.uni" Multiplicity="0..1" />
+    <End Role="yorumIicerik" Type="Self.yorumIicerik" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="uni">
+        <PropertyRef Name="uniID" />
+      </Principal>
+      <Dependent Role="yorumIicerik">
+        <PropertyRef Name="yorumUni" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="uniDegerlendirmeModelStoreContainer">
+    <EntitySet Name="bolum" EntityType="Self.bolum" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="hakkimizda" EntityType="Self.hakkimizda" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="iletisim" EntityType="Self.iletisim" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="kategori" EntityType="Self.kategori" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="kullanici" EntityType="Self.kullanici" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tur" EntityType="Self.tur" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="uni" EntityType="Self.uni" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="yorumIicerik" EntityType="Self.yorumIicerik" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_uni_bolum" Association="Self.FK_uni_bolum">
+      <End Role="bolum" EntitySet="bolum" />
+      <End Role="uni" EntitySet="uni" />
+    </AssociationSet>
+    <AssociationSet Name="FK_uni_kategori" Association="Self.FK_uni_kategori">
+      <End Role="kategori" EntitySet="kategori" />
+      <End Role="uni" EntitySet="uni" />
+    </AssociationSet>
+    <AssociationSet Name="FK_uni_tur" Association="Self.FK_uni_tur">
+      <End Role="tur" EntitySet="tur" />
+      <End Role="uni" EntitySet="uni" />
+    </AssociationSet>
+    <AssociationSet Name="FK_yorum_uni" Association="Self.FK_yorum_uni">
+      <End Role="uni" EntitySet="uni" />
+      <End Role="yorumIicerik" EntitySet="yorumIicerik" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

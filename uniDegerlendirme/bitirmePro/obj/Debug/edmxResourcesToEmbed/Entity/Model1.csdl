@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="uniDegerlendirmeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="hakkimizda">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="aciklama" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="iletisim">
+    <Key>
+      <PropertyRef Name="mesajid" />
+    </Key>
+    <Property Name="mesajid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="adSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="mail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="konu" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="mesaj" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="kategori">
+    <Key>
+      <PropertyRef Name="kategoriid" />
+    </Key>
+    <Property Name="kategoriid" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kategoriAd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="uni" Relationship="Self.FK_uni_kategori" FromRole="kategori" ToRole="uni" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tur">
+    <Key>
+      <PropertyRef Name="turid" />
+    </Key>
+    <Property Name="turid" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="turAd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="uni" Relationship="Self.FK_uni_tur" FromRole="tur" ToRole="uni" />
+  </EntityType>
+  <EntityType Name="uni">
+    <Key>
+      <PropertyRef Name="uniID" />
+    </Key>
+    <Property Name="uniID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="uniGBASLIK" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="uniICERIK" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+    <Property Name="uniTARIH" Type="DateTime" Precision="0" />
+    <Property Name="uniGORSEL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="uniTUR" Type="Byte" />
+    <Property Name="uniKATEGORI" Type="Byte" />
+    <NavigationProperty Name="kategori" Relationship="Self.FK_uni_kategori" FromRole="uni" ToRole="kategori" />
+    <NavigationProperty Name="tur" Relationship="Self.FK_uni_tur" FromRole="uni" ToRole="tur" />
+    <NavigationProperty Name="yorumIicerik" Relationship="Self.FK_yorum_uni" FromRole="uni" ToRole="yorumIicerik" />
+    <Property Name="uniBolum" Type="Byte" />
+    <NavigationProperty Name="bolum" Relationship="uniDegerlendirmeModel.FK_uni_bolum" FromRole="uni" ToRole="bolum" />
+  </EntityType>
+  <EntityType Name="yorumIicerik">
+    <Key>
+      <PropertyRef Name="yorumid" />
+    </Key>
+    <Property Name="yorumid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kisiAd" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="kisiMail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="yorum" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+    <Property Name="yorumUni" Type="Int32" />
+    <NavigationProperty Name="uni" Relationship="Self.FK_yorum_uni" FromRole="yorumIicerik" ToRole="uni" />
+  </EntityType>
+  <Association Name="FK_uni_kategori">
+    <End Role="kategori" Type="Self.kategori" Multiplicity="0..1" />
+    <End Role="uni" Type="Self.uni" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="kategori">
+        <PropertyRef Name="kategoriid" />
+      </Principal>
+      <Dependent Role="uni">
+        <PropertyRef Name="uniKATEGORI" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_uni_tur">
+    <End Role="tur" Type="Self.tur" Multiplicity="0..1" />
+    <End Role="uni" Type="Self.uni" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tur">
+        <PropertyRef Name="turid" />
+      </Principal>
+      <Dependent Role="uni">
+        <PropertyRef Name="uniTUR" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_yorum_uni">
+    <End Role="uni" Type="Self.uni" Multiplicity="0..1" />
+    <End Role="yorumIicerik" Type="Self.yorumIicerik" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="uni">
+        <PropertyRef Name="uniID" />
+      </Principal>
+      <Dependent Role="yorumIicerik">
+        <PropertyRef Name="yorumUni" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="uniDegerlendirmeEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="hakkimizda" EntityType="Self.hakkimizda" />
+    <EntitySet Name="iletisim" EntityType="Self.iletisim" />
+    <EntitySet Name="kategori" EntityType="Self.kategori" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="tur" EntityType="Self.tur" />
+    <EntitySet Name="uni" EntityType="Self.uni" />
+    <EntitySet Name="yorumIicerik" EntityType="Self.yorumIicerik" />
+    <AssociationSet Name="FK_uni_kategori" Association="Self.FK_uni_kategori">
+      <End Role="kategori" EntitySet="kategori" />
+      <End Role="uni" EntitySet="uni" />
+    </AssociationSet>
+    <AssociationSet Name="FK_uni_tur" Association="Self.FK_uni_tur">
+      <End Role="tur" EntitySet="tur" />
+      <End Role="uni" EntitySet="uni" />
+    </AssociationSet>
+    <AssociationSet Name="FK_yorum_uni" Association="Self.FK_yorum_uni">
+      <End Role="uni" EntitySet="uni" />
+      <End Role="yorumIicerik" EntitySet="yorumIicerik" />
+    </AssociationSet>
+    <EntitySet Name="kullanici" EntityType="uniDegerlendirmeModel.kullanici" />
+    <EntitySet Name="bolum" EntityType="uniDegerlendirmeModel.bolum" />
+    <AssociationSet Name="FK_uni_bolum" Association="uniDegerlendirmeModel.FK_uni_bolum">
+      <End Role="bolum" EntitySet="bolum" />
+      <End Role="uni" EntitySet="uni" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="kullanici">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kullanıci" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="bolum">
+    <Key>
+      <PropertyRef Name="bolumid" />
+    </Key>
+    <Property Name="bolumid" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="bolumAd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="uni" Relationship="uniDegerlendirmeModel.FK_uni_bolum" FromRole="bolum" ToRole="uni" />
+  </EntityType>
+  <Association Name="FK_uni_bolum">
+    <End Type="uniDegerlendirmeModel.bolum" Role="bolum" Multiplicity="0..1" />
+    <End Type="uniDegerlendirmeModel.uni" Role="uni" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="bolum">
+        <PropertyRef Name="bolumid" />
+      </Principal>
+      <Dependent Role="uni">
+        <PropertyRef Name="uniBolum" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
